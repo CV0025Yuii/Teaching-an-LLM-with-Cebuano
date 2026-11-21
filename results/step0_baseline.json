@@ -1,0 +1,10 @@
+{
+  "tokens_per_word_cebuano": 2.22,
+  "tokens_per_word_english": 1.11,
+  "generations": {
+    "Kumusta ka?": "Kumusta ka?\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+    "Ang mga tawo sa Cebu": "Ang mga tawo sa Cebu.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+    "Sa pagsugod sa klase, ang mga estudyante": "Sa pagsugod sa klase, ang mga estudyante, ang mga estudyante, ang mga estudyante, ang mga estudyante, ang mga estudyante, ang mga estudyante",
+    "Nipadayag ang mayor nga": "Nipadayag ang mayor nga nga nga nga nga nga nga nga nga nga nga nga nga nga nga nga nga nga nga nga nga"
+  }
+}
