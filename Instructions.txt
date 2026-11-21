@@ -1,0 +1,107 @@
+TEACHING DISTILGPT2 CEBUANO - HOW TO RUN THIS PROJECT
+=====================================================
+
+Repo:   https://github.com/CV0025Yuii/Teaching-an-LLM-with-Cebuano.git
+Branch: shierwin  (Step 0 and Step 1 work lives here)
+
+This file explains how a teammate can run the project from scratch.
+No GPU is required, but a free Colab T4 GPU makes training much faster.
+
+
+1. WHAT YOU NEED
+----------------
+- A Google account (for Google Colab and Google Drive)
+- A GitHub account with access to the repo (ask the owner to add you
+  as a collaborator, or use the public link)
+- Internet access (both datasets download from Hugging Face automatically)
+
+
+2. GET THE CODE
+---------------
+Option A - Colab (recommended):
+  1. Go to https://colab.research.google.com
+  2. File -> Open notebook -> GitHub tab
+  3. Paste the repo URL, choose branch "shierwin", open NLP-Week1.ipynb
+
+Option B - Local machine:
+  git clone https://github.com/CV0025Yuii/Teaching-an-LLM-with-Cebuano.git
+  cd Teaching-an-LLM-with-Cebuano
+  git checkout shierwin
+
+
+3. TURN ON A GPU (OPTIONAL BUT RECOMMENDED)
+-------------------------------------------
+In Colab: Runtime -> Change runtime type -> T4 GPU -> Save.
+Changing this restarts the runtime, so do it BEFORE running any cells.
+
+
+4. INSTALL THE LIBRARIES
+------------------------
+Run this in the first notebook cell:
+
+  !pip install transformers peft trl datasets accelerate matplotlib
+
+Then run the check cell. It should print the library versions and
+"GPU available: True" (or False if you are on CPU, which is also fine).
+
+
+5. RUN THE NOTEBOOK IN ORDER
+----------------------------
+Run the cells from top to bottom. Do not skip around, because later
+cells use variables created by earlier ones.
+
+  STEP 0 - Baseline diagnostic
+    a. Load the two datasets from Hugging Face:
+         josephimperial/CebuaNER   (news, CC BY-NC 4.0)
+         filbench/cebuano-readability   (literary/pedagogical, CC BY 4.0)
+    b. Rebuild plain text from CebuaNER's tagged tokens
+       (CoNLL format: first column is the word, -DOCSTART- starts an
+       article, a blank row ends a sentence) and join it with the
+       readability passages.
+    c. Save everything as cebuano_corpus.txt (one document per line).
+       Expected: 4,258 news articles + 350 passages = 4,608 documents,
+       about 237,000 words.
+    d. Measure tokenizer fragmentation on stock distilgpt2
+       (expected: about 2.2 tokens per word for Cebuano vs about 1.1
+       for English).
+    e. Generate from 4 Cebuano prompts with the untouched model using
+       greedy decoding. Save the results to step0_baseline.json.
+
+  STEP 1 - LoRA fine-tuning (in progress)
+    a. Hold out 100 documents for the perplexity check.
+    b. Cut the remaining text into 256-token chunks.
+    c. Attach LoRA adapters to distilgpt2 and train.
+    d. Plot the loss curve, then re-run the Step 0 diagnostics.
+
+  STEPS 2-4 will be added by the teammates who own them.
+
+
+6. WHERE FILES ARE SAVED
+------------------------
+- cebuano_corpus.txt and step0_baseline.json are written to the
+  notebook's working folder, then copied to Google Drive at:
+    MyDrive/cebuano_project/
+- Colab wipes its working folder when the runtime resets, so always
+  copy important files (corpus, LoRA checkpoints) to Drive.
+- To rebuild the corpus instead of copying it, just re-run the
+  Step 0 data cells. It only takes about a minute.
+
+
+7. COMMON PROBLEMS
+------------------
+- "GPU available: False" -> change the runtime type (section 3), then
+  re-run the install cell.
+- Warning "Token indices sequence length is longer than 1024" ->
+  harmless during token counting. We cut text into 256-token chunks
+  before training.
+- "HF_TOKEN" warning -> harmless. Downloads still work.
+- Runtime disconnected -> reconnect, re-run the install cell and the
+  cells above where you stopped. Files on Drive are still there.
+
+
+8. COMMIT RULES FOR THIS REPO
+-----------------------------
+- Work on your own branch, not on main.
+- Commit after each step (Step 0, 1, 2, 3, 4) with a clear message,
+  for example: "Step 0: baseline diagnostic".
+- Never commit your GitHub token or any password.
